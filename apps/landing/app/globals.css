@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@import "@workspace/ui/globals.css";
+
+body {
+  @apply bg-background text-foreground;
+}
