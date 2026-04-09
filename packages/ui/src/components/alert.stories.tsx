@@ -3,7 +3,7 @@ import {
   Alert,
   AlertTitle,
   AlertDescription,
-} from "./alert"
+} from "./alert.js"
 
 const AlertIcon = () => <span className="text-xl">ℹ️</span>
 const ErrorIcon = () => <span className="text-xl">❌</span>
