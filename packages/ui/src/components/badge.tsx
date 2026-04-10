@@ -9,15 +9,15 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-gradient-to-r from-pink-100 to-rose-100 text-pink-700 border border-pink-200",
+          "bg-primary-subtle text-primary border border-primary/20",
         secondary:
-          "bg-gray-100 text-gray-700 border border-gray-200",
+          "bg-secondary text-secondary-foreground border border-border",
         destructive:
           "bg-red-100 text-red-700 border border-red-200",
         success:
           "bg-green-100 text-green-700 border border-green-200",
         outline:
-          "border border-pink-300 text-pink-600 bg-transparent",
+          "border border-primary/40 text-primary bg-transparent",
       },
     },
     defaultVariants: {

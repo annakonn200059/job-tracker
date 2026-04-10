@@ -64,14 +64,14 @@ export const WithForm: Story = {
             <input
               type="text"
               placeholder="My Project"
-              className="w-full mt-1 px-3 py-2 border border-pink-200 rounded-xl"
+              className="w-full mt-1 px-3 py-2 border border-input rounded-xl"
             />
           </div>
           <div>
             <label className="text-sm font-medium">Description</label>
             <textarea
               placeholder="Project description"
-              className="w-full mt-1 px-3 py-2 border border-pink-200 rounded-xl resize-none"
+              className="w-full mt-1 px-3 py-2 border border-input rounded-xl resize-none"
               rows={3}
             />
           </div>

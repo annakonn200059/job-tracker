@@ -5,22 +5,22 @@ import { Slot } from "radix-ui"
 import { cn } from "@workspace/ui/lib/utils"
 
 const buttonVariants = cva(
-  "group inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/50 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50",
+  "group inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         default:
-          "bg-gradient-to-r from-pink-500 via-rose-400 to-yellow-400 text-white shadow-md hover:shadow-lg hover:brightness-105",
+          "bg-gradient-to-r from-gradient-start to-gradient-end text-primary-foreground shadow-md hover:shadow-lg hover:brightness-105",
         secondary:
-          "bg-white text-gray-800 border border-pink-100 shadow-sm hover:bg-pink-50",
+          "bg-card text-foreground border border-border shadow-sm hover:bg-primary-subtle",
         outline:
-          "border border-pink-200 text-pink-600 bg-transparent hover:bg-pink-50",
+          "border border-primary/30 text-primary bg-transparent hover:bg-primary-subtle",
         ghost:
-          "text-gray-600 hover:bg-pink-50 hover:text-pink-600",
+          "text-foreground hover:bg-primary-subtle hover:text-primary",
         destructive:
-          "bg-red-500 text-white hover:bg-red-600 shadow-md",
+          "bg-destructive text-white hover:brightness-95 shadow-md",
         link:
-          "text-pink-500 underline-offset-4 hover:underline",
+          "text-primary underline-offset-4 hover:underline",
       },
       size: {
         default: "h-10 px-4",

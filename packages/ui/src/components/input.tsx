@@ -4,16 +4,16 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@workspace/ui/lib/utils"
 
 const inputVariants = cva(
-  "flex h-10 w-full rounded-xl border px-4 py-2 text-sm transition-all duration-200 placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/50 focus-visible:border-pink-300 disabled:cursor-not-allowed disabled:opacity-50",
+  "flex h-10 w-full rounded-xl border px-4 py-2 text-sm transition-all duration-200 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50",
   {
     variants: {
       variant: {
         default:
-          "border-pink-200 bg-white text-gray-900 hover:border-pink-300",
+          "border-input bg-card text-foreground hover:border-ring/50",
         subtle:
-          "border-gray-200 bg-gray-50 text-gray-900 hover:border-gray-300",
+          "border-border bg-muted text-foreground hover:border-ring/30",
         error:
-          "border-red-300 bg-white text-gray-900 focus-visible:ring-red-400/50",
+          "border-destructive bg-card text-foreground focus-visible:ring-destructive/50",
       },
     },
     defaultVariants: {
