@@ -1,4 +1,5 @@
 import {  Geist_Mono, Nunito_Sans } from "next/font/google"
+import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@workspace/ui/lib/utils";
 

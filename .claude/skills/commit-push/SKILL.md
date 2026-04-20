@@ -21,15 +21,12 @@ Run these in sequence:
    - One concise imperative-mood subject line (≤72 chars)
    - Focus on *what* changed and *why*, not the file list
    - No bullet body unless there are genuinely distinct concerns
-   - Append `Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>`
 
 3. **Stage, commit, and push**:
    ```bash
    git add .
    git commit -m "$(cat <<'EOF'
    <generated message>
-
-   Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
    EOF
    )"
    git push
