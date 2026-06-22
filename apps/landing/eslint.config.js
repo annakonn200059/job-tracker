@@ -1,3 +1,4 @@
-const eslintConfigBase = require("@workspace/eslint-config/next")
+import { nextJsConfig } from "@workspace/eslint-config/next-js"
 
-module.exports = [...eslintConfigBase]
+/** @type {import("eslint").Linter.Config} */
+export default nextJsConfig
