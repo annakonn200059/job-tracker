@@ -1,14 +1,12 @@
-# ─────────────────────────────────────────
-# Stage 1: Dependencies
-# ─────────────────────────────────────────
-FROM node:20-alpine AS deps
+FROM node:22-alpine AS base
 RUN apk add --no-cache libc6-compat
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# ─── Stage 1: dependencies ───
+FROM base AS deps
 WORKDIR /app
 
-# Copy root workspace manifests
 COPY package.json package-lock.json turbo.json ./
-
-# Copy all package manifests for workspace resolution
 COPY apps/landing/package.json ./apps/landing/
 COPY packages/ui/package.json ./packages/ui/
 COPY packages/eslint-config/package.json ./packages/eslint-config/
@@ -16,37 +14,40 @@ COPY packages/typescript-config/package.json ./packages/typescript-config/
 
 RUN npm ci
 
-# ─────────────────────────────────────────
-# Stage 2: Builder
-# ─────────────────────────────────────────
-FROM node:20-alpine AS builder
+# ─── Stage 2: build ───
+FROM base AS builder
 WORKDIR /app
 
-COPY --from=deps /app/node_modules ./node_modules
+# Entire /app, not just root node_modules: when versions conflict, npm
+# installs them into nested workspace node_modules, which would be lost.
+COPY --from=deps /app ./
 COPY . .
 
 RUN npx turbo run build --filter=landing...
 
-# ─────────────────────────────────────────
-# Stage 3: Runner (production image)
-# ─────────────────────────────────────────
-FROM node:20-alpine AS runner
+# ─── Stage 3: runtime ───
+FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production \
+    PORT=3000 \
+    HOSTNAME=0.0.0.0
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+RUN apk add --no-cache tini && \
+    addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 --ingroup nodejs nextjs
 
-# Copy standalone output
-COPY --from=builder /app/apps/landing/.next/standalone ./
-COPY --from=builder /app/apps/landing/.next/static ./apps/landing/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/apps/landing/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/apps/landing/.next/static ./apps/landing/.next/static
+
+# outputFileTracingExcludes (next.config.mjs) is silently ignored by Turbopack
+# builds as of Next 16.1.6, so typescript and unused sharp binaries still end
+# up in the standalone bundle. Strip them here instead.
+RUN rm -rf ./node_modules/typescript && \
+    find ./node_modules/@img -maxdepth 1 -type d \( -name 'sharp-libvips-linux-*' -o -name 'sharp-linux-*' \) ! -name '*musl*' -exec rm -rf {} +
 
 USER nextjs
-
 EXPOSE 3000
-ENV PORT=3000
-ENV HOSTNAME="0.0.0.0"
 
+ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["node", "apps/landing/server.js"]
